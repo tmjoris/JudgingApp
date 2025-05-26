@@ -30,3 +30,45 @@ To make changes to the database once the app is running, you'd ssh into the judg
 <pre>docker exec -it judgingapp-db-1 mysql -u "root" -p</pre>
 When asked for the password type
 <pre>Enter Password:hard-to-crack</pre>
+
+# Database Schema
+![image](https://github.com/user-attachments/assets/3582893b-7488-4bf3-a355-ad32e535825d)
+<b>1. Admin Table</b>
+Stores admin login credentials.<br>
+<pre>
+CREATE TABLE admin(
+    username VARCHAR(50) PRIMARY KEY,
+    hashedPassword VARCHAR(255) NOT NULL
+);
+</pre>
+<b>2. Judges Table</b></br>
+Holds judge login credentials and display names.
+<pre>
+  CREATE TABLE judges (
+    username VARCHAR(50) PRIMARY KEY,
+    display_name VARCHAR(100) NOT NULL,
+    hashedPassword VARCHAR(255) NOT NULL
+);
+</pre>
+<b>3. Users Table</b></br>
+Contains all participants being scored.
+<pre>
+  CREATE TABLE users (
+    username VARCHAR(100) PRIMARY KEY
+);
+</pre>
+<b>3. Scores Table</b></br>
+Stores individual judge scores of each user.
+<pre>
+  CREATE TABLE scores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100) NOT NULL,
+    judge_name VARCHAR(100) NOT NULL,
+    points INT NOT NULL,
+    FOREIGN KEY (user_name) REFERENCES users(username) ON DELETE CASCADE,
+    FOREIGN KEY (judge_name) REFERENCES judges(username) ON DELETE CASCADE
+);
+</pre>
+
+
+
