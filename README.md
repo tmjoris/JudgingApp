@@ -76,6 +76,38 @@ Stores individual judge scores of each user.
 4. The participants are only using the platform to view their points.
 5. The expected number of users is miniscule.
 
+# Design Choices
+**Database Structure:**
+
+* The platform uses a relational database with four main tables (`admin`, `judges`, `users`, and `scores`)
+
+  * `admin` and `judges` tables store user credentials separately to manage different roles and permissions.
+  * `users` table lists all participants being scored.
+  * `scores` table connects judges to users with the points they assign.
+
+* Used a foreign key constraints with `ON DELETE CASCADE` to keep data consistent by automatically removing dependent scores when a user or judge is deleted.
+
+**PHP Constructs:**
+
+* By using Server-Sent Events (SSE) in the scoreboard, the server could send real-time score updates without needing page refreshes.
+* The system uses JSON encoding to structure data exchanged between server and client, making it easy for me to integrate with JavaScript.
+* I implemented the use of prepared statements to prevent SQL injection and increase security.
+
+
+
+**Platform Architecture:**
+
+* The platform is designed as a monolithic application. This approach made it simple and faster to develop.
+
+* The system clearly separates concerns via modular PHP files (e.g., `db.php` for database connection, distinct pages for judge and admin login).
+
+**Authentication:**
+
+* Separate login pages for admins and judges were added to:
+
+  * To allow the enforcement of role-based access control, ensuring only authorized judges can submit scores and only admins can manage the system.
+  * Secure sensitive actions behind authentication, protects the integrity of scoring and user data.
+
 
 
 
