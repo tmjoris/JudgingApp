@@ -4,7 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./src:/var/www/html
       - ./apache/virtualhost.conf:/etc/apache2/sites-enabled/000-default.conf
