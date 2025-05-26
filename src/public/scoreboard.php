@@ -7,11 +7,11 @@ include_once '../includes/db.php';
 $sql="
 SELECT 
     u.username,
-    COALESCE(ROUND(AVG(s.points), 2), 0) AS average_points
+    COALESCE(SUM(s.points), 0) AS total_points
 FROM users u
 LEFT JOIN scores s ON u.username = s.user_name
 GROUP BY u.username
-ORDER BY average_points DESC, u.username ASC
+ORDER BY total_points DESC, u.username ASC
 ";
 
 $results = $conn->query($sql);

@@ -4,7 +4,7 @@ function renderScores(data) {
 
     data.forEach(row => {
         let cssClass = '';
-        const points = parseInt(row.average_points, 10);
+        const points = parseInt(row.total_points, 10);
 
         if (points >= 80) cssClass = 'high';
         else if (points >= 50) cssClass = 'medium';

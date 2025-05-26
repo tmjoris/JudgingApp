@@ -1,4 +1,4 @@
 <?php
-header('Location: public/scoreboard.html');
+header('Location: scoreboard.html');
 exit;
 ?>

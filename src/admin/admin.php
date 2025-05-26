@@ -42,48 +42,56 @@ $result = $conn->query("SELECT * FROM judges ORDER BY username DESC");
     </head>
 
     <body>
-<div class="container">
+    <header>
+        <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="../judge/judgelogin.html">Judge</a></li>
+            <li><a href="../public/scoreboard.html">Scoreboard</a></li>
+            <li>
+                <form method="POST" action="logout.php" class="logout-form">
+                    <button type="submit" class="logout">Logout</button>
+                </form>
+            </li>
+        </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h1>Admin Dashboard</h1>
 
-<form method="POST" action="logout.php" class="logout-form">
-    <button type="submit" class="logout">Logout</button>
-</form>
+        <h2>Add Judges</h2>
 
+        <?php if ($message): ?>
+            <p><strong><?=htmlspecialchars($message)?></strong></p>
+        <?php endif; ?>
 
-    <h1>Admin Dashboard</h1>
+        <form method="POST">
+            <label>Judge Username:</label><br>
+            <input type="text" name="username" required /><br><br>
 
-    <h2>Add Judges</h2>
+            <label>Judge Display Name:</label><br>
+            <input type="text" name="display_name" required /><br><br>
 
-    <?php if ($message): ?>
-        <p><strong><?=htmlspecialchars($message)?></strong></p>
-    <?php endif; ?>
+            <label>Judge Login Password</label><br>
+            <input type="password" name="password" required /><br><br>
 
-    <form method="POST">
-        <label>Judge Username:</label><br>
-        <input type="text" name="username" required /><br><br>
+            <button type="submit">Add Judge</button>
+        </form>
 
-        <label>Judge Display Name:</label><br>
-        <input type="text" name="display_name" required /><br><br>
-
-        <label>Judge Login Password</label><br>
-        <input type="password" name="password" required /><br><br>
-
-        <button type="submit">Add Judge</button>
-    </form>
-
-    <h3>Existing Judges</h3>
-    <table>
-        <thead>
-        <tr><th>Username</th><th>Display Name</th></tr>
-        </thead>
-        <tbody>
-        <?php while ($row = $result->fetch_assoc()): ?>
-            <tr>
-                <td><?= htmlspecialchars($row['username']) ?></td>
-                <td><?= htmlspecialchars($row['display_name']) ?></td>
-            </tr>
-        <?php endwhile; ?>
-        </tbody>
-    </table>
+        <h3>Existing Judges</h3>
+        <table>
+            <thead>
+            <tr><th>Username</th><th>Display Name</th></tr>
+            </thead>
+            <tbody>
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['username']) ?></td>
+                    <td><?= htmlspecialchars($row['display_name']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+            </tbody>
+        </table>
 </div>
 </body>
 </html>

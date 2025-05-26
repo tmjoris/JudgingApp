@@ -80,54 +80,62 @@ $judge_stmt->close();
     <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
-<div class="container">
+    <header>
+        <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="../admin/adminlogin.html">Admin</a></li>
+            <li><a href="../public/scoreboard.html">Scoreboard</a></li>
+            <li>
+                <form method="POST" action="logout.php" class="logout-form">
+                    <button type="submit" class="logout">Logout</button>
+                </form>
+            </li>
+        </ul>
+        </nav>
+    </header>    
+    <div class="container">
+        <h1>Judge Portal </h1>
+        <h2>For Judge <?= htmlspecialchars($judge_name ?? 'Unknown Judge') ?></h2>
 
-    <form method="POST" action="logout.php" class="logout-form">
-    <button type="submit" class="logout">Logout</button>
-    </form>
+        <?php if ($message): ?>
+            <p><strong><?= htmlspecialchars($message) ?></strong></p>
+        <?php endif; ?>
 
-    <h1>Judge Portal </h1>
-    <h2>For Judge <?= htmlspecialchars($judge_name ?? 'Unknown Judge') ?></h2>
+        <form method="POST">
+            <label>Select User:</label><br>
+            <select name="user_username" required>
+                <option value="">-- Choose User --</option>
+                <?php while ($user = $users->fetch_assoc()): ?>
+                    <option value="<?= htmlspecialchars($user['username']) ?>">
+                        <?= htmlspecialchars($user['username']) ?>
+                    </option>
+                <?php endwhile; ?>
+            </select><br><br>
 
-    <?php if ($message): ?>
-        <p><strong><?= htmlspecialchars($message) ?></strong></p>
-    <?php endif; ?>
+            <label>Assign Points (1-100):</label><br>
+            <input type="number" name="points" min="1" max="100" required /><br><br>
 
-    <form method="POST">
-        <label>Select User:</label><br>
-        <select name="user_username" required>
-            <option value="">-- Choose User --</option>
-            <?php while ($user = $users->fetch_assoc()): ?>
-                <option value="<?= htmlspecialchars($user['username']) ?>">
-                    <?= htmlspecialchars($user['username']) ?>
-                </option>
-            <?php endwhile; ?>
-        </select><br><br>
+            <button type="submit">Submit Score</button>
+        </form>
 
-        <label>Assign Points (1-100):</label><br>
-        <input type="number" name="points" min="1" max="100" required /><br><br>
-
-        <button type="submit">Submit Score</button>
-    </form>
-
-    <?php if ($scores_result && $scores_result->num_rows > 0): ?>
-    <h3>Your Submitted Scores:</h3>
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>User</th>
-            <th>Points</th>
-        </tr>
-        <?php while ($row = $scores_result->fetch_assoc()): ?>
+        <?php if ($scores_result && $scores_result->num_rows > 0): ?>
+        <h3>Your Submitted Scores:</h3>
+        <table border="1" cellpadding="8">
             <tr>
-                <td><?= htmlspecialchars($row['user_name']) ?></td>
-                <td><?= htmlspecialchars($row['points']) ?></td>
+                <th>User</th>
+                <th>Points</th>
             </tr>
-        <?php endwhile; ?>
-    </table>
-    <?php else: ?>
-        <p>You haven't scored anyone yet.</p>
-    <?php endif; ?>
+            <?php while ($row = $scores_result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['user_name']) ?></td>
+                    <td><?= htmlspecialchars($row['points']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
+        <?php else: ?>
+            <p>You haven't scored anyone yet.</p>
+        <?php endif; ?>
 
-</div>
+    </div>
 </body>
 </html>
