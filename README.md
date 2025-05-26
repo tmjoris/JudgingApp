@@ -108,6 +108,20 @@ Stores individual judge scores of each user.
   * To allow the enforcement of role-based access control, ensuring only authorized judges can submit scores and only admins can manage the system.
   * Secure sensitive actions behind authentication, protects the integrity of scoring and user data.
 
+# Features I would have added if I had more time.
+1. User Self Registration and Profile Management to allow users to register themselves, update profiles, and view their scoring history.
+
+2. Advanced Analytics and Reports to provide detailed analytics dashboards for admins and judges, including scoring trends, user performance over time, and judge activity.
+
+3. Multi-factor authentication (MFA), password reset, and account lockout after multiple failed login attempts.
+
+4. Mobile-Friendly UI and Responsive Design to optimize the interface for mobile and tablet users.
+
+5. Comments and Feedback System to allow judges to leave feedback along with scores.
+
+6. Bulk Upload and Import Features to support bulk uploading of users and judges via CSV or Excel.
+
+7. Email Notifications and Reminders to notify judges of pending scoring tasks and users of results via automated emails.
 
 
 
