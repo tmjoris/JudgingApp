@@ -46,7 +46,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$users = $conn->query("SELECT username FROM users ORDER BY username ASC");
+$scores_stmt = $conn->prepare("SELECT user_name, points FROM scores WHERE judge_name = ? ORDER BY user_name ASC");
+$scores_stmt->bind_param("s", $judge_username);
+$scores_stmt->execute();
+$scores_result = $scores_stmt->get_result();
+
+$user_stmt = $conn->prepare("
+    SELECT username 
+    FROM users 
+    WHERE username NOT IN (
+        SELECT user_name FROM scores WHERE judge_name = ?
+    ) 
+    ORDER BY username ASC
+");
+$user_stmt->bind_param("s", $judge_username);
+$user_stmt->execute();
+$users = $user_stmt->get_result();
+
 
 $judge_stmt = $conn->prepare("SELECT display_name FROM judges WHERE username = ?");
 $judge_stmt->bind_param("s", $judge_username);
@@ -83,7 +99,7 @@ $judge_stmt->close();
             <option value="">-- Choose User --</option>
             <?php while ($user = $users->fetch_assoc()): ?>
                 <option value="<?= htmlspecialchars($user['username']) ?>">
-                    <?= htmlspecialchars($user['display_name']) ?>
+                    <?= htmlspecialchars($user['username']) ?>
                 </option>
             <?php endwhile; ?>
         </select><br><br>
@@ -93,6 +109,25 @@ $judge_stmt->close();
 
         <button type="submit">Submit Score</button>
     </form>
+
+    <?php if ($scores_result && $scores_result->num_rows > 0): ?>
+    <h3>Your Submitted Scores:</h3>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>User</th>
+            <th>Points</th>
+        </tr>
+        <?php while ($row = $scores_result->fetch_assoc()): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['user_name']) ?></td>
+                <td><?= htmlspecialchars($row['points']) ?></td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
+    <?php else: ?>
+        <p>You haven't scored anyone yet.</p>
+    <?php endif; ?>
+
 </div>
 </body>
 </html>

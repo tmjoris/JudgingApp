@@ -22,5 +22,5 @@ CREATE TABLE scores (
     judge_name VARCHAR(100) NOT NULL,
     points INT NOT NULL,
     FOREIGN KEY (user_name) REFERENCES users(username) ON DELETE CASCADE,
-    FOREIGN KEY (judge_id) REFERENCES judges(username) ON DELETE CASCADE
+    FOREIGN KEY (judge_name) REFERENCES judges(username) ON DELETE CASCADE
 );
