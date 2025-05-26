@@ -36,7 +36,7 @@ form.addEventListener('submit', async (event) => {
   formData.append('password', passwordInput.value.trim());
 
   try {
-    const response = await fetch('login.php', {
+    const response = await fetch('adminLogin.php', {
       method: 'POST',
       body: formData,
     });

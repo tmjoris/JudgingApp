@@ -7,8 +7,8 @@ include_once '../includes/db.php';
 $sql = "
     SELECT users.name, COALESCE(SUM(scores.points), 0) AS total_points
     FROM users
-    LEFT JOIN scores ON users.id = scores.user_id
-    GROUP BY users.id
+    LEFT JOIN scores ON users.username = scores.user_name
+    GROUP BY users.username
     ORDER BY total_points DESC, users.name ASC
 ";
 

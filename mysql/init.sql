@@ -1,19 +1,26 @@
+CREATE TABLE admin(
+    username VARCHAR(50) PRIMARY KEY,
+    hashedPassword VARCHAR(255) NOT NULL
+);
+
+INSERT INTO admin (username, hashedPassword)
+VALUES ('adminOne', '$2a$12$WuJ0oebqICPQwaxeehszkeSo348AeehDN2Wkar.0bfx4EBto9byiW');
+
 CREATE TABLE judges (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    display_name VARCHAR(100) NOT NULL
+    username VARCHAR(50) PRIMARY KEY,
+    display_name VARCHAR(100) NOT NULL,
+    hashedPassword VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    username VARCHAR(100) PRIMARY KEY
 );
 
 CREATE TABLE scores (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    judge_id INT NOT NULL,
+    user_name VARCHAR(100) NOT NULL,
+    judge_name VARCHAR(100) NOT NULL,
     points INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (judge_id) REFERENCES judges(id) ON DELETE CASCADE
+    FOREIGN KEY (user_name) REFERENCES users(username) ON DELETE CASCADE,
+    FOREIGN KEY (judge_id) REFERENCES judges(username) ON DELETE CASCADE
 );

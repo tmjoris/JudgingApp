@@ -1,38 +1,51 @@
 <?php
 include_once '../includes/db.php';
 
+session_start();
+
+if (!isset($_SESSION['admin'])) {
+    // Not logged in, redirect to login page
+    header('Location: adminlogin.html');
+    exit();
+}
+
 $message = '';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $display_name = trim($_POST['display_name']);
+    $password = trim($_POST['password']);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     if($username && $display_name){
-        $stmt = $conn->prepare("INSERT INTO judges (username, display_name) VALUES(?, ?)");
-        $stmt->bind_param('ss', $username, $display_name);
+        $stmt = $conn->prepare("INSERT INTO judges (username, display_name, hashedPassword) VALUES(?, ?, ?)");
+        $stmt->bind_param('sss', $username, $display_name, $hashedPassword);
         if($stmt->execute()) {
             $message = "Judge added successfully.";
         } else {
-            $message = "Error: " . conn-> error;
+            $message = "Error: " . $conn->error;
         }
+
+        $stmt->close();
     } else {
         $message = "Please fill in all fields.";
     }
 }
 
 //Fetch all judges
-$result = $conn->query("SELECT * FROM judges ORDER BY id DESC");
+$result = $conn->query("SELECT * FROM judges ORDER BY username DESC");
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Admin Panel - Add Judges</title>
+        <title>Admin Dashboard</title>
         <link rel="stylesheet" href="../css/style.css"/>
     </head>
 
     <body>
 <div class="container">
-    <h2>Admin Panel - Add Judges</h2>
+    <h1>Admin Dashboard</h1>
+    <h2>Add Judges</h2>
 
     <?php if ($message): ?>
         <p><strong><?=htmlspecialchars($message)?></strong></p>
@@ -45,18 +58,20 @@ $result = $conn->query("SELECT * FROM judges ORDER BY id DESC");
         <label>Judge Display Name:</label><br>
         <input type="text" name="display_name" required /><br><br>
 
+        <label>Judge Login Password</label><br>
+        <input type="password" name="password" required /><br><br>
+
         <button type="submit">Add Judge</button>
     </form>
 
     <h3>Existing Judges</h3>
     <table>
         <thead>
-        <tr><th>ID</th><th>Username</th><th>Display Name</th></tr>
+        <tr><th>Username</th><th>Display Name</th></tr>
         </thead>
         <tbody>
         <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
-                <td><?= $row['ID'] ?></td>
                 <td><?= htmlspecialchars($row['username']) ?></td>
                 <td><?= htmlspecialchars($row['display_name']) ?></td>
             </tr>
