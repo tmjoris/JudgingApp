@@ -3,9 +3,16 @@ include_once '../includes/db.php';
 
 $message = '';
 session_start();
-$judge_username = $_SESSION['judge_username']; // Set this during login
 
-// Handle form submission
+if (!isset($_SESSION['judge'])) {
+    // Not logged in, redirect to login page
+    header('Location: judgelogin.html');
+    exit();
+}
+
+$judge_username = $_SESSION['judge'];
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_username = $_POST['user_username'] ?? '';
     $points = (int)($_POST['points'] ?? 0);
@@ -39,10 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch all users
-$users = $conn->query("SELECT username, display_name FROM users ORDER BY display_name ASC");
+$users = $conn->query("SELECT username FROM users ORDER BY username ASC");
 
-// Get judge display name
 $judge_stmt = $conn->prepare("SELECT display_name FROM judges WHERE username = ?");
 $judge_stmt->bind_param("s", $judge_username);
 $judge_stmt->execute();
@@ -50,3 +55,44 @@ $judge_stmt->bind_result($judge_name);
 $judge_stmt->fetch();
 $judge_stmt->close();
 ?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Judge Portal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="container">
+
+    <form method="POST" action="logout.php" class="logout-form">
+    <button type="submit" class="logout">Logout</button>
+    </form>
+
+    <h1>Judge Portal </h1>
+    <h2>For Judge <?= htmlspecialchars($judge_name ?? 'Unknown Judge') ?></h2>
+
+    <?php if ($message): ?>
+        <p><strong><?= htmlspecialchars($message) ?></strong></p>
+    <?php endif; ?>
+
+    <form method="POST">
+        <label>Select User:</label><br>
+        <select name="user_username" required>
+            <option value="">-- Choose User --</option>
+            <?php while ($user = $users->fetch_assoc()): ?>
+                <option value="<?= htmlspecialchars($user['username']) ?>">
+                    <?= htmlspecialchars($user['display_name']) ?>
+                </option>
+            <?php endwhile; ?>
+        </select><br><br>
+
+        <label>Assign Points (1-100):</label><br>
+        <input type="number" name="points" min="1" max="100" required /><br><br>
+
+        <button type="submit">Submit Score</button>
+    </form>
+</div>
+</body>
+</html>

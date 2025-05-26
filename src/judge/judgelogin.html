@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Judge Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="full-screen-container">
+    <div class="login-container">
+      <h1 class="login-title">Judge Login</h1>
+      <form class="form" method="POST" novalidate>
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username" autocomplete="username" />
+          <span class="msg"></span>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" autocomplete="current-password" />
+          <span class="msg"></span>
+        </div>
+
+        <button type="submit" class="login-button">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="judgelogin.js"></script>
+</body>
+</html>

@@ -31,7 +31,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-//Fetch all judges
 $result = $conn->query("SELECT * FROM judges ORDER BY username DESC");
 ?>
 
@@ -44,7 +43,14 @@ $result = $conn->query("SELECT * FROM judges ORDER BY username DESC");
 
     <body>
 <div class="container">
+
+<form method="POST" action="logout.php" class="logout-form">
+    <button type="submit" class="logout">Logout</button>
+</form>
+
+
     <h1>Admin Dashboard</h1>
+
     <h2>Add Judges</h2>
 
     <?php if ($message): ?>
