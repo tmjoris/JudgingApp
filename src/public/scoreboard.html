@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Public Scoreboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .high { background-color: #c8e6c9; }
+        .medium { background-color: #fff9c4; }
+        .low { background-color: #ffcdd2; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Public Scoreboard</h2>
+        <p id="last-updated"></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Participant</th>
+                    <th>Total Points</th>
+                </tr>
+            </thead>
+            <tbody id="scoreboard-body">
+                <tr><td colspan="3">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+<script src="scoreboard.js"></script>
+</body>
+</html>

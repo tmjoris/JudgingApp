@@ -1,0 +1,23 @@
+name: judgingapp
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./apache/virtualhost.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hard-to-crack
+      MYSQL_DATABASE: judging_system
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
