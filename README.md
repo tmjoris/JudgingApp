@@ -69,6 +69,13 @@ Stores individual judge scores of each user.
     FOREIGN KEY (judge_name) REFERENCES judges(username) ON DELETE CASCADE
 );
 </pre>
+# Assumptions made
+1. The platform scale and needs can be satisfied by one admin.
+2. The users are pre-registered.
+3. The judges are fine having the admin set their username and password
+4. The participants are only using the platform to view their points.
+5. The expected number of users is miniscule.
+
 
 
 
