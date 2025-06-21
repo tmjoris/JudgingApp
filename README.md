@@ -1,14 +1,11 @@
 # JudgingApp
 The platform is meant to simulate a Leaderboard.<br>
 
-# Navigating the Application online
-The main page is at<br>
-http://leaderboardkali.tech:8080/public/scoreboard.html<br><br>
+# Navigating the Application
+The application has a main page<br>
 But only judges can assign points to Particpants.
-The judge login page is at<br>
-http://leaderboardkali.tech:8080/judge/judgelogin.html  <br><br>
-Still only the admin can create judges, and the admin page is at<br>
-http://leaderboardkali.tech:8080/admin/adminlogin.html<br><br>
+The judge has a login page<br>
+Still only the admin can create judges on the admin page<br>
 The admin username is:
 <pre> adminOne</pre> 
 and password is:
